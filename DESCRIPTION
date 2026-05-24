@@ -1,0 +1,23 @@
+Package: tidyplastic
+Title: Tools for Analyzing Plastic Waste Cleanup Efficiency
+Version: 0.0.0.9000
+Authors@R: person("Rayan", "Tahir", email = "you@example.com",
+                  role = c("aut", "cre"))
+Description: Provides functions to load, clean, and visualize
+    the Break Free From Plastic audit dataset from Tidy Tuesday
+    (2021, Week 5). Supports analysis of cleanup efficiency by
+    region, volunteer participation, and GDP per capita.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Imports: 
+    countrycode,
+    dplyr,
+    httr,
+    jsonlite,
+    plotly,
+    purrr,
+    rlang,
+    scales,
+    stringr
+Config/roxygen2/version: 8.0.0
