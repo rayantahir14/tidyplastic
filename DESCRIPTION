@@ -23,3 +23,7 @@ Imports:
 Config/roxygen2/version: 8.0.0
 URL: https://github.com/rayantahir14/tidyplastic
 BugReports: https://github.com/rayantahir14/tidyplastic/issues
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
