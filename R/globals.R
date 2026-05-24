@@ -13,5 +13,6 @@ utils::globalVariables(c(
   "avg_efficiency",
   "summarise",
   "ungroup",
-  "group_modify"
+  "group_modify",
+  "path"
 ))

@@ -1,6 +1,10 @@
 ---
 title: "Main Functions in tidyplastic"
-format: html
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Main Functions in tidyplastic}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 ## Overview
 
