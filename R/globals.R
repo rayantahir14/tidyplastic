@@ -1,3 +1,4 @@
+
 utils::globalVariables(c(
   "grand_total",
   "volunteers",

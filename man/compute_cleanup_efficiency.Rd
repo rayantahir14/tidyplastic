@@ -10,19 +10,11 @@ compute_cleanup_efficiency(data)
 \item{data}{A tibble returned by \code{load_data()}.}
 }
 \value{
-A tibble with columns \code{country}, \code{year},
-\code{total_plastic}, \code{total_volunteers}, and
-\code{avg_efficiency}.
+A tibble with columns \code{country}, \code{year}, \code{total_plastic},
+\code{total_volunteers}, and \code{avg_efficiency}.
 }
 \description{
 Aggregates the raw plastics dataset to the country-year level
 and calculates cleanup efficiency as total plastic collected
 per volunteer.
-}
-\examples{
-\dontrun{
-  plastics <- load_data()
-  efficiency <- compute_cleanup_efficiency(plastics)
-}
-
 }

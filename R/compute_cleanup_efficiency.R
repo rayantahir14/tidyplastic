@@ -4,17 +4,10 @@
 #' and calculates cleanup efficiency as total plastic collected
 #' per volunteer.
 #'
-#' @param data A tibble returned by \code{load_data()}.
+#' @param data A tibble returned by `load_data()`.
 #'
-#' @return A tibble with columns \code{country}, \code{year},
-#'   \code{total_plastic}, \code{total_volunteers}, and
-#'   \code{avg_efficiency}.
-#'
-#' @examples
-#' \dontrun{
-#'   plastics <- load_data()
-#'   efficiency <- compute_cleanup_efficiency(plastics)
-#' }
+#' @return A tibble with columns `country`, `year`, `total_plastic`,
+#'   `total_volunteers`, and `avg_efficiency`.
 #'
 #' @importFrom dplyr group_by summarise filter mutate
 #' @importFrom rlang .data
@@ -22,6 +15,8 @@
 
 
 compute_cleanup_efficiency <- function(data) {
+  validate_data_input(data, c("country", "year", "volunteers", "grand_total"),
+                      call_name = "compute_cleanup_efficiency()")
   data |>
     group_by(.data$country, .data$year) |>
     summarise(

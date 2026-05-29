@@ -10,5 +10,6 @@
 #' @importFrom readr read_csv
 #' @export
 load_data <- function() {
+  path <- system.file("extdata", "plastics.csv", package = "tidyplastic")
   readr::read_csv(path, show_col_types = FALSE)
 }

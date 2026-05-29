@@ -29,6 +29,8 @@
 #' @importFrom purrr map_dfr
 #' @export
 join_gdp <- function(data, year = 2019, api_key = Sys.getenv("NINJA_API_KEY")) {
+  validate_data_input(data, c("country", "total_volunteers", "total_plastic"),
+                      call_name = "join_gdp()")
   fetch_one <- function(country) {
     if (!nzchar(api_key)) return(NULL)
 
