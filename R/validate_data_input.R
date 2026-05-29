@@ -12,7 +12,6 @@
 #'
 #' @return Invisibly returns `TRUE` if all checks pass, otherwise stops
 #'   with an informative error.
-
 validate_data_input <- function(
     data,
     required_cols,

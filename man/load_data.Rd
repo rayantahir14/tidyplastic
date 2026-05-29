@@ -7,12 +7,10 @@
 load_data()
 }
 \value{
-A tibble with columns including \code{country},
-\code{year}, \code{volunteers}, \code{grand_total},
-and plastic type columns (hdpe, ldpe, o, pet, pp, ps, pvc).
+A tibble with columns including \code{country}, \code{year}, \code{volunteers},
+\code{grand_total}, and plastic type columns (hdpe, ldpe, o, pet, pp, ps, pvc).
 }
 \description{
 Loads the Break Free From Plastic dataset from a local CSV file.
-The CSV should be placed in the \code{inst/extdata/} folder of
-the package.
+The CSV should be placed in the \verb{inst/extdata/} folder of the package.
 }
