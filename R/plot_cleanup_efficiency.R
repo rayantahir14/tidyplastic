@@ -9,7 +9,7 @@
 #'
 #' @importFrom ggplot2 ggplot aes geom_bin2d geom_smooth scale_x_log10 scale_y_log10 labs theme_minimal
 #' @export
-plot_cleanup_efficiency <- function(data) {
+plot_cleanup_efficiency <- function(data = compute_cleanup_efficiency()) {
   validate_data_input(data, c("total_volunteers", "avg_efficiency"),
                       call_name = "plot_cleanup_efficiency()")
   ggplot(data, aes(x = total_volunteers, y = avg_efficiency)) +

@@ -4,7 +4,7 @@
 \alias{plot_cleanup_efficiency}
 \title{Plot Cleanup Efficiency vs Volunteers}
 \usage{
-plot_cleanup_efficiency(data)
+plot_cleanup_efficiency(data = compute_cleanup_efficiency())
 }
 \arguments{
 \item{data}{A tibble returned by \code{compute_cleanup_efficiency()}.}

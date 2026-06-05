@@ -4,7 +4,7 @@
 \alias{compute_cleanup_efficiency}
 \title{Compute Cleanup Efficiency by Country and Year}
 \usage{
-compute_cleanup_efficiency(data)
+compute_cleanup_efficiency(data = load_data())
 }
 \arguments{
 \item{data}{A tibble returned by \code{load_data()}.}
