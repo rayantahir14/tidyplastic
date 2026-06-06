@@ -4,13 +4,13 @@
 \alias{compute_cleanup_efficiency}
 \title{Compute Cleanup Efficiency by Country and Year}
 \usage{
-compute_cleanup_efficiency(data = load_data())
+compute_cleanup_efficiency(data)
 }
 \arguments{
-\item{data}{A tibble returned by \code{load_data()}.}
+\item{data}{A tibble returned by \code{clean_plastic_data()}.}
 }
 \value{
-A tibble with columns \code{country}, \code{year}, \code{total_plastic},
+A tibble with columns \code{country}, \code{year}, \code{region}, \code{total_plastic},
 \code{total_volunteers}, and \code{avg_efficiency}.
 }
 \description{

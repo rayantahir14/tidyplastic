@@ -4,36 +4,18 @@
 \alias{join_gdp}
 \title{Join GDP Per Capita Data to Cleanup Efficiency Tibble}
 \usage{
-join_gdp(
-  data = compute_cleanup_efficiency(),
-  year = 2019,
-  api_key = Sys.getenv("NINJA_API_KEY")
-)
+join_gdp(data, year = 2019)
 }
 \arguments{
 \item{data}{A tibble returned by \code{compute_cleanup_efficiency()}.}
 
 \item{year}{An integer year to fetch GDP data for. Defaults to 2019.}
-
-\item{api_key}{A string API key for the API Ninjas GDP endpoint.
-Defaults to the \code{NINJA_API_KEY} environment variable.}
 }
 \value{
-The input tibble with three additional columns:
-\code{iso} (ISO3 country code), \code{gdp_per_capita_nominal},
-and \code{gdp_source} (one of \code{"api"} or \code{"proxy"}).
+The input tibble with two additional columns:
+\code{iso} (ISO3 country code) and \code{gdp_per_capita_nominal}.
 }
 \description{
-Enriches a cleanup efficiency tibble with GDP per capita
-data using the API Ninjas GDP endpoint. Falls back to a
-proxy score based on volunteer and plastic totals if the
-API is unavailable or returns no data.
-}
-\examples{
-\dontrun{
-  plastics <- load_data()
-  efficiency <- compute_cleanup_efficiency(plastics)
-  enriched <- join_gdp(efficiency, year = 2019)
-}
-
+Enriches a cleanup efficiency tibble with GDP per capita data
+from the bundled plotting data file in \verb{inst/extdata/}.
 }

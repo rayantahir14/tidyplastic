@@ -1,101 +1,30 @@
 #' Join GDP Per Capita Data to Cleanup Efficiency Tibble
 #'
-#' Enriches a cleanup efficiency tibble with GDP per capita
-#' data using the API Ninjas GDP endpoint. Falls back to a
-#' proxy score based on volunteer and plastic totals if the
-#' API is unavailable or returns no data.
+#' Enriches a cleanup efficiency tibble with GDP per capita data
+#' from the bundled plotting data file in `inst/extdata/`.
 #'
-#' @param data A tibble returned by \code{compute_cleanup_efficiency()}.
+#' @param data A tibble returned by `compute_cleanup_efficiency()`.
 #' @param year An integer year to fetch GDP data for. Defaults to 2019.
-#' @param api_key A string API key for the API Ninjas GDP endpoint.
-#'   Defaults to the \code{NINJA_API_KEY} environment variable.
 #'
-#' @return The input tibble with three additional columns:
-#'   \code{iso} (ISO3 country code), \code{gdp_per_capita_nominal},
-#'   and \code{gdp_source} (one of \code{"api"} or \code{"proxy"}).
+#' @return The input tibble with two additional columns:
+#'   `iso` (ISO3 country code) and `gdp_per_capita_nominal`.
 #'
-#' @examples
-#' \dontrun{
-#'   plastics <- load_data()
-#'   efficiency <- compute_cleanup_efficiency(plastics)
-#'   enriched <- join_gdp(efficiency, year = 2019)
-#' }
-#'
-#' @importFrom dplyr mutate left_join filter distinct coalesce
+#' @importFrom dplyr mutate left_join distinct select
+#' @importFrom readr read_csv
 #' @importFrom countrycode countrycode
-#' @importFrom httr GET add_headers content
-#' @importFrom jsonlite fromJSON
-#' @importFrom scales rescale
-#' @importFrom purrr map_dfr
 #' @export
-join_gdp <- function(data = compute_cleanup_efficiency(), year = 2019, api_key = Sys.getenv("NINJA_API_KEY")) {
+join_gdp <- function(data, year = 2019) {
   validate_data_input(data, c("country", "total_volunteers", "total_plastic"),
                       call_name = "join_gdp()")
-  fetch_one <- function(country) {
-    if (!nzchar(api_key)) return(NULL)
 
-    resp <- GET(
-      url = "https://api.api-ninjas.com/v1/gdp",
-      add_headers(`X-Api-Key` = api_key),
-      query = list(country = country, year = year)
-    )
-
-    out <- tryCatch(
-      fromJSON(content(resp, as = "text", encoding = "UTF-8")),
-      error = function(e) NULL
-    )
-
-    if (is.null(out) || length(out) == 0) return(NULL)
-    as.data.frame(out)
-  }
-
-  countries <- unique(data$country)
-
-  api_results <- map_dfr(countries, function(ct) {
-    res <- fetch_one(ct)
-    if (is.null(res)) return(data.frame())
-    res$country_input <- ct
-    res
-  })
-  proxy <- data |>
-    filter(is.finite(total_volunteers), total_volunteers > 0) |>
-    mutate(
-      iso = countrycode(country, "country.name", "iso3c", warn = FALSE),
-      proxy_score = rank(log1p(total_volunteers) + log1p(pmax(total_plastic, 0))),
-      gdp_per_capita_proxy = round(rescale(proxy_score, to = c(1200, 55000)), 0)
-    ) |>
-    distinct(iso, .keep_all = TRUE)
-
-  if (nrow(api_results) > 0 && "gdp_per_capita_nominal" %in% names(api_results)) {
-    api_clean <- api_results |>
-      mutate(
-        iso = countrycode(country, "country.name", "iso3c", warn = FALSE)
-      ) |>
-      distinct(iso, .keep_all = TRUE)
-
-    proxy <- proxy |>
-      left_join(
-        api_clean[, c("iso", "gdp_per_capita_nominal")],
-        by = "iso"
-      ) |>
-      mutate(
-        gdp_per_capita_nominal = coalesce(
-          gdp_per_capita_nominal,
-          gdp_per_capita_proxy
-        ),
-        gdp_source = ifelse(!is.na(gdp_per_capita_nominal), "api", "proxy")
-      )
-  } else {
-    proxy <- proxy |>
-      mutate(
-        gdp_per_capita_nominal = gdp_per_capita_proxy,
-        gdp_source = "proxy"
-      )
-  }
+  gdp_path <- system.file("extdata", "plotting-data.csv", package = "tidyplastic")
+  gdp_data <- readr::read_csv(gdp_path, show_col_types = FALSE) |>
+    dplyr::distinct(iso, .keep_all = TRUE) |>
+    dplyr::select(iso, gdp_per_capita_nominal)
 
   data |>
-    left_join(
-      proxy[, c("country", "iso", "gdp_per_capita_nominal", "gdp_source")],
-      by = "country"
-    )
+    dplyr::mutate(
+      iso = countrycode::countrycode(country, "country.name", "iso3c", warn = FALSE)
+    ) |>
+    dplyr::left_join(gdp_data, by = "iso")
 }
