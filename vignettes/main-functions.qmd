@@ -6,14 +6,33 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-## Overview
 
+## Overview
 The `tidyplastic` package provides tools for analyzing plastic 
 waste cleanup efficiency using the Break Free From Plastic dataset.
-Below are three planned functions we have with examples of aspirational usage.
-  
-## Function 1: `compute_cleanup_efficiency()`
+Below are the main functions with examples of usage.
 
+## Function 1: `load_data()`
+Loads the Break Free From Plastic dataset from the bundled CSV file
+in the package. This is the starting point for all other functions.
+
+```{r}
+#| eval: false
+plastics <- load_data()
+```
+
+## Function 2: `clean_plastic_data()`
+Standardizes country names and joins region and population data
+from the REST Countries API. This is the data cleaning step required
+before computing efficiency or summarizing by region.
+
+```{r}
+#| eval: false
+plastics <- load_data()
+cleaned <- clean_plastic_data(plastics)
+```
+
+## Function 3: `compute_cleanup_efficiency()`
 A summary calculation that aggregates the raw plastics dataset to the
 country-year level and calculates cleanup efficiency as total plastic
 collected per volunteer. This condenses thousands of brand-level rows
@@ -22,44 +41,74 @@ into one efficiency metric per country.
 ```{r}
 #| eval: false
 plastics <- load_data()
-compute_cleanup_efficiency(plastics)
+cleaned <- clean_plastic_data(plastics)
+efficiency <- compute_cleanup_efficiency(cleaned)
 ```
 
-## Function 2: `join_gdp()`
-
-Makes a cleanup efficiency tibble with GDP per capita data using
-the API Ninjas GDP endpoint. Falls back to a proxy score based on
-volunteer and plastic totals if the API is unavailable. The gdp_source
-column tracks whether each value came from the API or the fallback proxy.
+## Function 4: `summarize_by_region()`
+Aggregates plastic waste and cleanup event data to the region level,
+computing total plastic collected, total events, and average cleanup
+efficiency per region. Useful for comparing cleanup performance across
+different parts of the world.
 
 ```{r}
 #| eval: false
 plastics <- load_data()
-efficiency <- compute_cleanup_efficiency(plastics)
-join_gdp(efficiency, year = 2019)
+cleaned <- clean_plastic_data(plastics)
+summarize_by_region(cleaned)
 ```
 
-## Function 3: `plot_gdp_efficiency()`
-
-A visualization that produces an interactive scatter plot of GDP per
-capita vs cleanup efficiency, colored by region, with an optional
-per-region linear line of best fit. This would be useful for identifying regional patterns and outliers like Togo.
+## Function 5: `join_gdp()`
+Enriches a cleanup efficiency tibble with GDP per capita data from
+the bundled plotting data file. Adds `iso` and `gdp_per_capita_nominal`
+columns to the efficiency tibble.
 
 ```{r}
 #| eval: false
 plastics <- load_data()
-efficiency <- compute_cleanup_efficiency(plastics)
-enriched <- join_gdp(efficiency, year = 2019)
-plot_gdp_efficiency(enriched, regions = c("africa", "asia", "europe"),
-                    log_axes = TRUE, show_smoother = TRUE)
+cleaned <- clean_plastic_data(plastics)
+efficiency <- compute_cleanup_efficiency(cleaned)
+enriched <- join_gdp(efficiency)
 ```
 
-## Function 4: `plot_cleanup_efficiency()`
-
-A visualization presenting a linear model with density bins instead of points. The visualization depicts the relationship between cleanup efficiency and volunteers. A line of best fit is shown accompanied by a light grey shaded region consisting of 1 standard deviation away from the line of best fit. This function is applicable to answer the research question: Can increasing the number of volunteers correlate with an increase in cleanup efficiency?
+## Function 6: `plot_cleanup_efficiency()`
+A visualization presenting a linear model with density bins instead
+of points. Depicts the relationship between cleanup efficiency and
+volunteers on log-log axes. Useful for answering: does increasing
+the number of volunteers correlate with an increase in cleanup efficiency?
 
 ```{r}
+#| eval: false
 plastics <- load_data()
-efficiency <- compute_cleanup_efficiency(plastics)
-plot_cleanup_efficiency(data = plastics)
+cleaned <- clean_plastic_data(plastics)
+efficiency <- compute_cleanup_efficiency(cleaned)
+plot_cleanup_efficiency(efficiency)
+```
+
+## Function 7: `plot_gdp_efficiency()`
+An interactive scatter plot of GDP per capita vs cleanup efficiency,
+colored by region. Useful for identifying regional patterns and
+outliers like Togo.
+
+```{r}
+#| eval: false
+plastics <- load_data()
+cleaned <- clean_plastic_data(plastics)
+efficiency <- compute_cleanup_efficiency(cleaned)
+enriched <- join_gdp(efficiency)
+plot_gdp_efficiency(enriched)
+```
+
+## Function 8: `test_gdp_plastic_association()`
+Runs a chi-square test to assess whether GDP group and dominant plastic
+type are statistically associated. Returns a tibble with the chi-square
+statistic, degrees of freedom, and p-value.
+
+```{r}
+#| eval: false
+plastics <- load_data()
+cleaned <- clean_plastic_data(plastics)
+efficiency <- compute_cleanup_efficiency(cleaned)
+enriched <- join_gdp(efficiency)
+test_gdp_plastic_association(enriched)
 ```
