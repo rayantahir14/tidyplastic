@@ -4,7 +4,11 @@
 \alias{join_gdp}
 \title{Join GDP Per Capita Data to Cleanup Efficiency Tibble}
 \usage{
-join_gdp(data, year = 2019, api_key = Sys.getenv("NINJA_API_KEY"))
+join_gdp(
+  data = compute_cleanup_efficiency(),
+  year = 2019,
+  api_key = Sys.getenv("NINJA_API_KEY")
+)
 }
 \arguments{
 \item{data}{A tibble returned by \code{compute_cleanup_efficiency()}.}

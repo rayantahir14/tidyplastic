@@ -11,7 +11,7 @@ vignette: >
 The `tidyplastic` package provides tools for analyzing plastic 
 waste cleanup efficiency using the Break Free From Plastic dataset.
 Below are three planned functions we have with examples of aspirational usage.
-
+  
 ## Function 1: `compute_cleanup_efficiency()`
 
 A summary calculation that aggregates the raw plastics dataset to the
@@ -52,4 +52,14 @@ efficiency <- compute_cleanup_efficiency(plastics)
 enriched <- join_gdp(efficiency, year = 2019)
 plot_gdp_efficiency(enriched, regions = c("africa", "asia", "europe"),
                     log_axes = TRUE, show_smoother = TRUE)
+```
+
+## Function 4: `plot_cleanup_efficiency()`
+
+A visualization presenting a linear model with density bins instead of points. The visualization depicts the relationship between cleanup efficiency and volunteers. A line of best fit is shown accompanied by a light grey shaded region consisting of 1 standard deviation away from the line of best fit. This function is applicable to answer the research question: Can increasing the number of volunteers correlate with an increase in cleanup efficiency?
+
+```{r}
+plastics <- load_data()
+efficiency <- compute_cleanup_efficiency(plastics)
+plot_cleanup_efficiency(data = plastics)
 ```
