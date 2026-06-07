@@ -9,6 +9,7 @@
 #'   and `p_value`.
 #'
 #' @importFrom tibble tibble
+#' @importFrom stats chisq.test
 #' @export
 test_gdp_plastic_association <- function(data) {
   validate_data_input(data, c("gdp_group", "dominant_type"),

@@ -14,5 +14,11 @@ utils::globalVariables(c(
   "summarise",
   "ungroup",
   "group_modify",
-  "path"
+  "path",
+  "country_clean",
+  "name.common",
+  "name.official",
+  "population",
+  "num_events",
+  "total_events"
 ))

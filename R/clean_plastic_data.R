@@ -54,7 +54,7 @@ clean_plastic_data <- function(data) {
         "United States of America" = "United States",
         "Russian Federation" = "Russia",
         "Korea (Republic of)" = "South Korea",
-        "Côte d'Ivoire" = "Cote d'Ivoire"
+        "C\u00f4te d'Ivoire" = "Cote d'Ivoire"
       )
     )
 
