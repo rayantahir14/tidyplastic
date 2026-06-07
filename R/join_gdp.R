@@ -10,15 +10,15 @@
 #'   `iso` (ISO3 country code) and `gdp_per_capita_nominal`.
 #'
 #' @importFrom dplyr mutate left_join distinct select
-#' @importFrom readr read_csv
+#' @importFrom arrow read_parquet
 #' @importFrom countrycode countrycode
 #' @export
-join_gdp <- function(data, year = 2019) {
+join_gdp <- function(data = compute_cleanup_efficiency(), year = 2019) {
   validate_data_input(data, c("country", "total_volunteers", "total_plastic"),
                       call_name = "join_gdp()")
 
-  gdp_path <- system.file("extdata", "plotting-data.csv", package = "tidyplastic")
-  gdp_data <- readr::read_csv(gdp_path, show_col_types = FALSE) |>
+  gdp_path <- system.file("extdata", "plotting-data.parquet", package = "tidyplastic")
+  gdp_data <- arrow::read_parquet(gdp_path) |>
     dplyr::distinct(iso, .keep_all = TRUE) |>
     dplyr::select(iso, gdp_per_capita_nominal)
 

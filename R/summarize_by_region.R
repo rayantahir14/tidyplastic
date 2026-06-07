@@ -11,7 +11,7 @@
 #' @importFrom dplyr filter group_by summarise arrange desc
 #' @importFrom stringr str_to_title
 #' @export
-summarize_by_region <- function(data) {
+summarize_by_region <- function(data = clean_plastic_data()) {
   validate_data_input(data, c("region", "grand_total", "num_events"),
                       call_name = "summarize_by_region()")
 

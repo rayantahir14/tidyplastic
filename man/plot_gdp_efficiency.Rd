@@ -5,7 +5,7 @@
 \title{Plot GDP Per Capita vs Cleanup Efficiency}
 \usage{
 plot_gdp_efficiency(
-  data,
+  data = join_gdp(),
   regions = NULL,
   log_axes = TRUE,
   show_smoother = FALSE

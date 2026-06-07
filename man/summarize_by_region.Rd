@@ -4,7 +4,7 @@
 \alias{summarize_by_region}
 \title{Summarize Cleanup Efficiency by Region}
 \usage{
-summarize_by_region(data)
+summarize_by_region(data = clean_plastic_data())
 }
 \arguments{
 \item{data}{A tibble returned by \code{clean_plastic_data()}.}

@@ -14,7 +14,7 @@
 #' @export
 
 
-compute_cleanup_efficiency <- function(data) {
+compute_cleanup_efficiency <- function(data = clean_plastic_data()) {
   validate_data_input(data, c("country", "year", "volunteers", "grand_total"),
                       call_name = "compute_cleanup_efficiency()")
   data |>

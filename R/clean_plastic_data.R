@@ -11,7 +11,7 @@
 #' @importFrom dplyr mutate left_join select
 #' @importFrom stringr str_squish
 #' @export
-clean_plastic_data <- function(data) {
+clean_plastic_data <- function(data = load_data()) {
   validate_data_input(data, c("country"), call_name = "clean_plastic_data()")
 
   plastic_data_clean <- data |>

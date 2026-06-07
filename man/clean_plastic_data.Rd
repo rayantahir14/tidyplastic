@@ -4,7 +4,7 @@
 \alias{clean_plastic_data}
 \title{Clean and Standardize Plastic Waste Data}
 \usage{
-clean_plastic_data(data)
+clean_plastic_data(data = load_data())
 }
 \arguments{
 \item{data}{A tibble returned by \code{load_data()}.}

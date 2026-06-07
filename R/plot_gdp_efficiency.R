@@ -18,7 +18,7 @@
 #' @importFrom plotly plot_ly add_lines layout config
 #' @importFrom stringr str_to_title
 #' @export
-plot_gdp_efficiency <- function(data, regions = NULL, log_axes = TRUE, show_smoother = FALSE) {
+plot_gdp_efficiency <- function(data = join_gdp(), regions = NULL, log_axes = TRUE, show_smoother = FALSE) {
   validate_data_input(data, c("country", "region", "gdp_per_capita_nominal", "avg_efficiency"),
                       call_name = "plot_gdp_efficiency()")
 
